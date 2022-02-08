@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>JavaScript Microsoft Graph SPA</title>
+  <link rel="icon" href="data:;base64,="> <!-- Suppress favicon error -->
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <main id="main-container" role="main" class="container">
+    <mgt-msal2-provider client-id=""></mgt-msal2-provider>
+    <div id="content" style="display: none;">
+      <h4>Hola <span id="userName"></span></h4>
+      <button onclick="displayEmail();" id="displayEmail">Mostrar emails</button>
+      <div id="loadMoreContainer" style="display: none;">
+        <button onclick="displayEmail();">Cargar mas</button>
+      </div>
+      <ul id="emails"></ul>
+
+      <button id="btnShowEvents" style="display: none;" onclick="displayEvents();">Mostrar tareas</button>
+      <div id="eventWrapper" style="display: none;">
+        <p>Tareas de test con levantamiento de datos relevantes para tracking entre fechas y horas extremas y etiquetas
+          de clasificación de tareas:</p>
+        <ul id="events"></ul>
+      </div>
+    </div>
+    <mgt-login>
+      <template data-type=”signed-in-button-content”>
+        {{personDetails.mail}}
+      </template>
+    </mgt-login>
+    <mgt-agenda>
+      <template data-type="event">
+        {{ event.subject }} <strong>Clasificacion:</strong> {{ event.categories[0] }}
+        <div class="time-container">
+          <div class="date"> {{ dayFromDateTime(event.start.dateTime) }}</div>
+
+          <div class="time"> {{ timeRangeFromEvent(event, '300') }} {{console.log(this)}}</div>
+        </div>
+      </template>
+      <template data-type="no-data">
+        No se pueden ver eventos!
+      </template>
+    </mgt-agenda>
+
+
+    <a id="signin" onclick="displayUI(); return false;" href="#">
+      <img src="./images/ms-symbollockup_signin_light.png" alt="Sign in with Microsoft" />
+    </a>
+
+  </main>
+
+  <script src="https://alcdn.msauth.net/browser/2.1.0/js/msal-browser.min.js"
+    integrity="sha384-EmYPwkfj+VVmL1brMS1h6jUztl4QMS8Qq8xlZNgIT/luzg7MAzDVrRa2JxbNmk/e"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@microsoft/mgt/dist/bundle/mgt-loader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@microsoft/microsoft-graph-client/lib/graph-js-sdk.js"></script>
+
+  <script src="auth.js"></script>
+  <script src="graph.js"></script>
+  <script src="ui.js"></script>
+</body>
+
+</html>
